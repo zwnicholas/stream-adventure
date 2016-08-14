@@ -7,6 +7,9 @@ var zlib = require('zlib');
 	// to biglist
 
 	module.exports = function () {
+		// Strangely, the solution passes whether or not
+		// I use a through object stream or a standard through
+		// stream. No idea why this is.
 		var TRstrm = through2.obj(write, end);
 		var biglist = [
 		 { 	name: "",
@@ -47,6 +50,14 @@ var zlib = require('zlib');
 		};
 		
 		function end (done) {
+		// adding this if statement with the push is essential in order
+		// for the solution to pass. Even after reading the through2 
+		// documentation on the flush function I don't know why this is.
+		// All I know is, when I replace its body with just 'done()',
+		// the entire genre 'alternate history', at the top of the expected 
+		// output, is missing. If I console log it in the body of 'write',
+		// it's missing as well.Strange. Hopefully the answer lies somewhere deep
+		// in the bowels of the stream module documentation.
 			if (biglist[i]) {
 				this.push(JSON.stringify(biglist[i]) + '\n');
 			}
