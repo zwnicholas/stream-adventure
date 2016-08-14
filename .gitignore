@@ -1,3 +1,5 @@
 echo.txt
 node_modules/
 input.html
+misc
+*.swp
